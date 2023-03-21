@@ -1,7 +1,7 @@
 package api
 
 const (
-	endpointAccountToken       = "/account/token"
+	endpointAccountToken       = "/token"
 	endpointNamespaces         = "/namespaces"
 	endpointObjects            = "/objects"
 	endpointDevicesStateStream = "/devices/%s/state/stream"

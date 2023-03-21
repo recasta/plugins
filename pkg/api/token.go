@@ -54,19 +54,28 @@ type tokenParams struct {
 	Password string `json:"password"`
 }
 
+type authParams struct {
+	Auth DataParam `json:"auth"`
+}
+
+// Testing out the new auth
+type DataParam struct {
+	Type string   `json:"type"`
+	Data []string `json:"data"`
+}
+
 type tokenRes struct {
 	Token string `json:"token"`
 }
 
 func (h *tokenHandlerImpl) RefreshToken() error {
 	log.Println("refreshing account token...")
-	b, _ := json.Marshal(tokenParams{
-		Username: h.username,
-		Password: h.password,
-	})
+
+	t := []string{h.username, h.password}
+	z := DataParam{"standard", t}
+	b, _ := json.Marshal(authParams{z})
 
 	req, _ := http.NewRequestWithContext(context.Background(), http.MethodPost, h.apiUrl+endpointAccountToken, bytes.NewBuffer(b))
-	req.Header.Add("Content-Type", "application/json")
 
 	res, err := h.client.Do(req)
 	if err != nil {
